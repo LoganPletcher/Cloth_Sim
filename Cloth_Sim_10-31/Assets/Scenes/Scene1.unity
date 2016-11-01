@@ -171,7 +171,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 747759710}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 22.5, z: -60}
+  m_LocalPosition: {x: 25, y: 50, z: -95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -219,10 +219,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sphere: {fileID: 1000013661163324, guid: 6b2ba78ee5391f844bcdcf33130bfe5f, type: 2}
   springDamp: {fileID: 1000013348153976, guid: 7fc5461497145b14eae2a7bf86889875, type: 2}
-  row: 20
-  col: 20
+  triangle: {fileID: 1000012619419112, guid: 065e66bd9daf17c48bfde59adcfcf75f, type: 2}
+  row: 5
+  col: 5
   sdCount: 0
   clothParticles: []
+  springDampers: []
+  triangles: []
 --- !u!1 &1282252239
 GameObject:
   m_ObjectHideFlags: 0

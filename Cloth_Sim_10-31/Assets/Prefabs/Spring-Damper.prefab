@@ -54,10 +54,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Fspring: 0
   Fdamp: 0
-  Ks: 0
-  Kd: 0
-  l0: 0
+  Ks: 10
+  Kd: 1
+  l0: 5
   l: 0
+  e: {x: 0, y: 0, z: 0}
   P1: {fileID: 0}
   P2: {fileID: 0}
 --- !u!120 &120000013194043446
@@ -66,7 +67,7 @@ LineRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013348153976}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1

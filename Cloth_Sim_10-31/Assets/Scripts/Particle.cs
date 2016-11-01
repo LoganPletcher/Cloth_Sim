@@ -6,9 +6,10 @@ using System.Text;
 
 class Particle : MonoBehaviour
 {
-    public float m;
-    public float s;
-    public float v1D;
+    public float m = 1;
+    public float s = 1;
+    public bool anchor;
+    public Vector3 Pos0;
     public Vector3 r;
     public Vector3 v;
     public Vector3 a;
@@ -18,36 +19,44 @@ class Particle : MonoBehaviour
 
     void Start()
     {
+        Force = Vector3.zero;
+        Pos0 = transform.position;
         r = transform.position;
     }
 
     void Update()
     {
+    }
+
+    public void UpdateParticle()
+    {
         r = transform.position;
-    }
 
-    void CalcVelocity()
-    {
-        v += (a * Time.deltaTime);
-    }
-
-    void CalcPosition()
-    {
-        r += (v * Time.deltaTime);
-    }
-
-    void CalcAcceleration()
-    {
+        //Calculate acceleration
         a = (1 / m) * Force;
+
+        //Calculate velocity
+        v += (a * Time.deltaTime);
+
+        //Calculate position
+        r += (v * Time.deltaTime);
+
+        transform.position = r;
+
+        //Reset Force
+        Force = Vector3.zero;
     }
 
-    void CalcGravity()
+    public void ApplyGravity()
     {
-        g = new Vector3(0, -9.8f, 0) * (m / (s * s));
-    }
-
-    void CalcGravForce()
-    {
+        g = new Vector3(0, -9.8f, 0) * (m);
         Fgravity = g * m;
+        AddForce(Fgravity);
+    }
+
+    public void AddForce(Vector3 force)
+    {
+        if(!anchor)
+            Force += force;
     }
 }

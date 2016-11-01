@@ -90,9 +90,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 378a999cdd3021f4caa265058e9224c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m: 0
-  s: 0
-  v1D: 0
+  m: 0.15
+  s: 1
+  anchor: 0
+  Pos0: {x: 0, y: 0, z: 0}
   r: {x: 0, y: 0, z: 0}
   v: {x: 0, y: 0, z: 0}
   a: {x: 0, y: 0, z: 0}

@@ -38,19 +38,23 @@ class Particle : MonoBehaviour
     {
         r = transform.position;
 
-        //Calculate acceleration
-        a = (1 / m) * Force;
+        if (!anchor)
+        {
 
-        //Calculate velocity
-        v += (a * Time.deltaTime);
+            //Calculate acceleration
+            a = (1 / m) * Force;
 
-        //Calculate position
-        r += (v * Time.deltaTime);
+            //Calculate velocity
+            v += (a * Time.deltaTime);
+
+            //Calculate position
+            r += (v * Time.deltaTime);
+
+            //Reset Force
+            Force = Vector3.zero;
+        }
 
         transform.position = r;
-
-        //Reset Force
-        Force = Vector3.zero;
     }
 
     public void UpdateParticle()

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class Gen_Cloth : MonoBehaviour
@@ -11,6 +12,9 @@ public class Gen_Cloth : MonoBehaviour
     public List<GameObject> springDampers = new List<GameObject>();
     public List<GameObject> triangles = new List<GameObject>();
     public Vector3 Wind = new Vector3(0,0,0);
+    public float Ks, Kd, L0;
+    public InputField windForce;
+    float parseTest;
     // Use this for initialization
     void Start()
     {
@@ -68,7 +72,7 @@ public class Gen_Cloth : MonoBehaviour
                 }
             }
         }
-        for (int i = 0; i < (((col - 1) * (row - 1)) * 2); i++)
+        for (int i = 0; i < (((col - 1) * (row - 1)) * 4); i++)
         {
             GameObject t = Instantiate(triangle);
             t.name += (i + 1).ToString();
@@ -92,6 +96,14 @@ public class Gen_Cloth : MonoBehaviour
                         triangles[T].GetComponent<ClothTriangle>().P2 = clothParticles[(j - 1) + ((i + 1) * row)].GetComponent<Particle>();
                         triangles[T].GetComponent<ClothTriangle>().P3 = clothParticles[j + (i * row)].GetComponent<Particle>();
                         T++;
+                        triangles[T].GetComponent<ClothTriangle>().P1 = clothParticles[j + (i * row)].GetComponent<Particle>();
+                        triangles[T].GetComponent<ClothTriangle>().P2 = clothParticles[(j - 1) + (i * row)].GetComponent<Particle>();
+                        triangles[T].GetComponent<ClothTriangle>().P3 = clothParticles[j + ((i + 1) * row)].GetComponent<Particle>();
+                        T++;
+                        triangles[T].GetComponent<ClothTriangle>().P1 = clothParticles[(j - 1) + ((i + 1) * row)].GetComponent<Particle>();
+                        triangles[T].GetComponent<ClothTriangle>().P2 = clothParticles[j + ((i + 1) * row)].GetComponent<Particle>();
+                        triangles[T].GetComponent<ClothTriangle>().P3 = clothParticles[(j - 1) + (i * row)].GetComponent<Particle>();
+                        T++;
                     }
                 }
             }
@@ -110,16 +122,25 @@ public class Gen_Cloth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (float.TryParse(windForce.text,out parseTest))
+        {
+            Wind = new Vector3(0, 0, float.Parse(windForce.text));
+        }
         foreach (GameObject p in clothParticles)
             p.GetComponent<Particle>().ApplyGravity();
 
         foreach (GameObject sd in springDampers)
+        {
+            sd.GetComponent<SpringDamper>().Ks = Ks;
+            sd.GetComponent<SpringDamper>().Kd = Kd;
+            sd.GetComponent<SpringDamper>().l0 = L0;
             sd.GetComponent<SpringDamper>().ComputeForces();
-
+        }
         foreach (GameObject ct in triangles)
         {
             ct.GetComponent<ClothTriangle>().Vair = Wind;
             ct.GetComponent<ClothTriangle>().CalcAeroForce();
         }
+        windForce.text = Wind.z.ToString();
     }
 }

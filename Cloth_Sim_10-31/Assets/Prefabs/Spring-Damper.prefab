@@ -54,7 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Fspring: 0
   Fdamp: 0
-  Ks: 10
+  Ks: 5
   Kd: 1
   l0: 5
   l: 0

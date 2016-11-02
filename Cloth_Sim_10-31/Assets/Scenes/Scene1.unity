@@ -220,12 +220,13 @@ MonoBehaviour:
   sphere: {fileID: 1000013661163324, guid: 6b2ba78ee5391f844bcdcf33130bfe5f, type: 2}
   springDamp: {fileID: 1000013348153976, guid: 7fc5461497145b14eae2a7bf86889875, type: 2}
   triangle: {fileID: 1000012619419112, guid: 065e66bd9daf17c48bfde59adcfcf75f, type: 2}
-  row: 5
-  col: 5
+  row: 20
+  col: 20
   sdCount: 0
   clothParticles: []
   springDampers: []
   triangles: []
+  Wind: {x: 0, y: 0, z: 0}
 --- !u!1 &1282252239
 GameObject:
   m_ObjectHideFlags: 0

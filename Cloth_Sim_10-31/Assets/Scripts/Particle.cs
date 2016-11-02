@@ -22,13 +22,19 @@ class Particle : MonoBehaviour
         Force = Vector3.zero;
         Pos0 = transform.position;
         r = transform.position;
+        //Calculate acceleration
+        a = (1 / m) * Force;
+
+        //Calculate velocity
+        v += (a * Time.deltaTime);
+
+        //Calculate position
+        r += (v * Time.deltaTime);
+
+        transform.position = r;
     }
 
     void Update()
-    {
-    }
-
-    public void UpdateParticle()
     {
         r = transform.position;
 
@@ -45,6 +51,11 @@ class Particle : MonoBehaviour
 
         //Reset Force
         Force = Vector3.zero;
+    }
+
+    public void UpdateParticle()
+    {
+
     }
 
     public void ApplyGravity()

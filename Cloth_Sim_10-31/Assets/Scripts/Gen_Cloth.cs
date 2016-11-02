@@ -10,6 +10,7 @@ public class Gen_Cloth : MonoBehaviour
     public List<GameObject> clothParticles = new List<GameObject>();
     public List<GameObject> springDampers = new List<GameObject>();
     public List<GameObject> triangles = new List<GameObject>();
+    public Vector3 Wind = new Vector3(0,0,0);
     // Use this for initialization
     void Start()
     {
@@ -116,9 +117,9 @@ public class Gen_Cloth : MonoBehaviour
             sd.GetComponent<SpringDamper>().ComputeForces();
 
         foreach (GameObject ct in triangles)
+        {
+            ct.GetComponent<ClothTriangle>().Vair = Wind;
             ct.GetComponent<ClothTriangle>().CalcAeroForce();
-
-        foreach (GameObject p in clothParticles)
-            p.GetComponent<Particle>().UpdateParticle();
+        }
     }
 }

@@ -115,6 +115,9 @@ public class Gen_Cloth : MonoBehaviour
         foreach (GameObject sd in springDampers)
             sd.GetComponent<SpringDamper>().ComputeForces();
 
+        foreach (GameObject ct in triangles)
+            ct.GetComponent<ClothTriangle>().CalcAeroForce();
+
         foreach (GameObject p in clothParticles)
             p.GetComponent<Particle>().UpdateParticle();
     }

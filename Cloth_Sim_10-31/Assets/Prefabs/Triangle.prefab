@@ -54,3 +54,10 @@ MonoBehaviour:
   P1: {fileID: 0}
   P2: {fileID: 0}
   P3: {fileID: 0}
+  p: 0.1
+  Cd: 0.1
+  a: 0
+  Faero: {x: 0, y: 0, z: 0}
+  v: {x: 0, y: 0, z: 0}
+  n: {x: 0, y: 0, z: 0}
+  Vair: {x: 0, y: 0, z: 0}

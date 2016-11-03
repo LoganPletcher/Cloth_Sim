@@ -16,9 +16,11 @@ class Particle : MonoBehaviour
     public Vector3 Force;
     public Vector3 g = new Vector3(0, -9.8f, 0);
     public Vector3 Fgravity;
-
+    public bool selected = false;
+    Camera camera;
     void Start()
     {
+        camera = FindObjectOfType<Camera>();
         Force = Vector3.zero;
         Pos0 = transform.position;
         r = transform.position;
@@ -36,6 +38,27 @@ class Particle : MonoBehaviour
 
     void Update()
     {
+        Vector3 screenPos = camera.WorldToScreenPoint(transform.position);
+        if ((Math.Abs(screenPos.x - Input.mousePosition.x) < 5f) && (Math.Abs(screenPos.y - Input.mousePosition.y) < 5f))
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                //Debug.Log(transform.position);
+                Debug.Log("gotcha");
+                selected = true;
+            }
+        }
+        if(selected)
+        {
+            //Convert camera pos to screen space, find screen space difference
+            Vector3 NewPos = camera.ScreenToWorldPoint(screenPos);
+            Vector3 MousePos = new Vector3(Input.mousePosition.x, 0, 0);
+            Debug.Log("Screen Camera Pos: " + MousePos);
+            Debug.Log("World Camera Pos: " + camera.ScreenToWorldPoint(new Vector3(100,100, camera.nearClipPlane)));
+            Debug.Log("NewPos: " + NewPos);
+            Debug.Log("PrevPos: " + transform.position);
+            transform.position = new Vector3(NewPos.x, NewPos.y, transform.position.z);
+        }
         r = transform.position;
 
         if (!anchor)

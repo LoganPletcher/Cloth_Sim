@@ -49,6 +49,13 @@ class Particle : MonoBehaviour
                 Debug.Log("gotcha");
                 selected = true;
             }
+            if (Input.GetButtonDown("Fire2"))
+            {
+                if (!anchor)
+                    anchor = true;
+                else
+                    anchor = false;
+            }
         }
         if(selected)
         {

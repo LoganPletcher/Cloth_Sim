@@ -13,8 +13,8 @@ public class Gen_Cloth : MonoBehaviour
     public List<GameObject> triangles = new List<GameObject>();
     public Vector3 Wind = new Vector3(0,0,0);
     public float Ks, Kd, L0;
-    public Slider windForce;
-    public Text wText;
+    //public Slider windForce;
+    //public Text wText;
     Camera camera;
     float parseTest;
     // Use this for initialization
@@ -30,7 +30,7 @@ public class Gen_Cloth : MonoBehaviour
                 particle.transform.position = new Vector3(0 + (j * 5), 20 + (i * 5), 0);
                 if ((i == col - 1))
                 {
-                    Debug.Log("pinned");
+                    //Debug.Log("pinned");
                     particle.GetComponent<Particle>().anchor = true;
                 }
                 clothParticles.Add(particle);
@@ -132,7 +132,7 @@ public class Gen_Cloth : MonoBehaviour
         //    Debug.Log("Particle: " + pPos);
         //    Debug.Log("Mouse: " + Input.mousePosition);
         //}
-        Wind = new Vector3(0, 0, windForce.value);
+        //Wind = new Vector3(0, 0, windForce.value);
         foreach (GameObject p in clothParticles)
         {
             p.GetComponent<Particle>().ApplyGravity();
@@ -150,12 +150,17 @@ public class Gen_Cloth : MonoBehaviour
             sd.GetComponent<SpringDamper>().Kd = Kd;
             sd.GetComponent<SpringDamper>().l0 = L0;
             sd.GetComponent<SpringDamper>().ComputeForces();
+            //if (sd.GetComponent<SpringDamper>().l > 20)
+            //{
+            //    springDampers.Remove(sd);
+            //    Destroy(sd);
+            //}
         }
         foreach (GameObject ct in triangles)
         {
             ct.GetComponent<ClothTriangle>().Vair = Wind;
             ct.GetComponent<ClothTriangle>().CalcAeroForce();
         }
-        wText.text = "Wind Force: " + Wind.z.ToString();
+        //wText.text = "Wind Force: " + Wind.z.ToString();
     }
 }

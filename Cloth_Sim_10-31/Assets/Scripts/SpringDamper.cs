@@ -15,7 +15,7 @@ class SpringDamper : MonoBehaviour
 
     void Start()
     {
-        //gameObject.GetComponent<LineRenderer>().SetPositions(particlePos);
+        gameObject.GetComponent<LineRenderer>().SetPositions(particlePos);
     }
 
     void Update()
@@ -26,7 +26,10 @@ class SpringDamper : MonoBehaviour
         //P1.UpdateParticle();
         //P2.UpdateParticle();
         Debug.DrawLine(P1.r, P2.r, Color.red);
-        //gameObject.GetComponent<LineRenderer>().SetPositions(particlePos);
+        particlePos[0] = P1.r;
+        particlePos[1] = P2.r;
+        gameObject.GetComponent<LineRenderer>().SetWidth(.5f, .5f);
+        gameObject.GetComponent<LineRenderer>().SetPositions(particlePos);
 
     }
 

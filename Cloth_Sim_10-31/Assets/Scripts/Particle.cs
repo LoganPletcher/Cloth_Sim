@@ -16,9 +16,13 @@ class Particle : MonoBehaviour
     public Vector3 Force;
     public Vector3 g = new Vector3(0, -9.8f, 0);
     public Vector3 Fgravity;
-
+    public Vector3 screenPoint;
+    public Vector3 offset;
+    public bool selected = false;
+    Camera camera;
     void Start()
     {
+        camera = FindObjectOfType<Camera>();
         Force = Vector3.zero;
         Pos0 = transform.position;
         r = transform.position;
@@ -36,6 +40,40 @@ class Particle : MonoBehaviour
 
     void Update()
     {
+        Vector3 screenPos = camera.WorldToScreenPoint(transform.position);
+        if ((Math.Abs(screenPos.x - Input.mousePosition.x) < 5f) && (Math.Abs(screenPos.y - Input.mousePosition.y) < 5f))
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                //Debug.Log(transform.position);
+                Debug.Log("gotcha");
+                selected = true;
+            }
+        }
+        if(selected)
+        {
+            //Convert camera pos to screen space, find screen space difference
+            //Vector3 MousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+            //Debug.Log("Screen Particle Pos: " + screenPos);
+            //Debug.Log("Screen Mouse Pos: " + MousePos);
+            ////Debug.Log("World Camera Pos: " + camera.ScreenToWorldPoint(new Vector3(100,100, camera.nearClipPlane)));
+            //Debug.Log("PrevPos: " + transform.position);
+            //Vector3 Difference = new Vector3(MousePos.x - screenPos.x, MousePos.y - screenPos.y, 0);
+            //Debug.Log("Difference: " + Difference);
+            //Vector3 NewPos = new Vector3(transform.position.x /*+ Difference.x*/, transform.position.y + Difference.y, transform.position.z + Difference.z);
+            //transform.position = NewPos;
+
+            //Vector3 screenPoint = Camera.main.WorldToScreenPoint(Input.mousePosition);
+            //Vector3 offset = Input.mousePosition - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z));
+            //Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z);
+            //Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+
+            //if (offset.magnitude >= 5.0f)
+            //{
+            //    transform.position = curPosition;
+            //}
+
+        }
         r = transform.position;
 
         if (!anchor)
@@ -73,5 +111,18 @@ class Particle : MonoBehaviour
     {
         if(!anchor)
             Force += force;
+    }
+
+    void OnMouseDown()
+    {
+        screenPoint = Camera.main.WorldToScreenPoint(transform.position);
+        offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+    }
+
+    void OnMouseDrag()
+    {
+        Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
+        Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+        transform.position = curPosition;
     }
 }

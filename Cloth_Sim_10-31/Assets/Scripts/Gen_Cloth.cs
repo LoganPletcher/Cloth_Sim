@@ -136,30 +136,30 @@ public class Gen_Cloth : MonoBehaviour
         foreach (GameObject p in clothParticles)
         {
             p.GetComponent<Particle>().ApplyGravity();
-            if(p.GetComponent<Particle>().selected)
-            {
-                if(Input.GetButtonUp("Fire1"))
-                {
-                    p.GetComponent<Particle>().selected = false;
-                }
-            }
         }
         foreach (GameObject sd in springDampers)
         {
-            sd.GetComponent<SpringDamper>().Ks = Ks;
-            sd.GetComponent<SpringDamper>().Kd = Kd;
-            sd.GetComponent<SpringDamper>().l0 = L0;
-            sd.GetComponent<SpringDamper>().ComputeForces();
-            //if (sd.GetComponent<SpringDamper>().l > 20)
-            //{
-            //    springDampers.Remove(sd);
-            //    Destroy(sd);
-            //}
+            if (!sd.GetComponent<SpringDamper>().broken)
+            {
+                sd.GetComponent<SpringDamper>().Ks = Ks;
+                sd.GetComponent<SpringDamper>().Kd = Kd;
+                sd.GetComponent<SpringDamper>().l0 = L0;
+                sd.GetComponent<SpringDamper>().ComputeForces();
+                if (sd.GetComponent<SpringDamper>().l > 20)
+                {
+                    sd.GetComponent<SpringDamper>().broken = true;
+                }
+            }
         }
         foreach (GameObject ct in triangles)
         {
             ct.GetComponent<ClothTriangle>().Vair = Wind;
             ct.GetComponent<ClothTriangle>().CalcAeroForce();
+            //if (ct.GetComponent<SpringDamper>().l > 20)
+            //{
+            //    springDampers.Remove(sd);
+            //    Destroy(sd);
+            //}
         }
         //wText.text = "Wind Force: " + Wind.z.ToString();
     }

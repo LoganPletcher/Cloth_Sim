@@ -18,7 +18,6 @@ class Particle : MonoBehaviour
     public Vector3 Fgravity;
     public Vector3 screenPoint;
     public Vector3 offset;
-    public bool selected = false;
     Camera camera;
     void Start()
     {
@@ -47,7 +46,6 @@ class Particle : MonoBehaviour
             {
                 //Debug.Log(transform.position);
                 Debug.Log("gotcha");
-                selected = true;
             }
             if (Input.GetButtonDown("Fire2"))
             {
@@ -56,30 +54,6 @@ class Particle : MonoBehaviour
                 else
                     anchor = false;
             }
-        }
-        if(selected)
-        {
-            //Convert camera pos to screen space, find screen space difference
-            //Vector3 MousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-            //Debug.Log("Screen Particle Pos: " + screenPos);
-            //Debug.Log("Screen Mouse Pos: " + MousePos);
-            ////Debug.Log("World Camera Pos: " + camera.ScreenToWorldPoint(new Vector3(100,100, camera.nearClipPlane)));
-            //Debug.Log("PrevPos: " + transform.position);
-            //Vector3 Difference = new Vector3(MousePos.x - screenPos.x, MousePos.y - screenPos.y, 0);
-            //Debug.Log("Difference: " + Difference);
-            //Vector3 NewPos = new Vector3(transform.position.x /*+ Difference.x*/, transform.position.y + Difference.y, transform.position.z + Difference.z);
-            //transform.position = NewPos;
-
-            //Vector3 screenPoint = Camera.main.WorldToScreenPoint(Input.mousePosition);
-            //Vector3 offset = Input.mousePosition - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z));
-            //Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z);
-            //Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
-
-            //if (offset.magnitude >= 5.0f)
-            //{
-            //    transform.position = curPosition;
-            //}
-
         }
         r = transform.position;
 
@@ -131,5 +105,6 @@ class Particle : MonoBehaviour
         Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
         Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
         transform.position = curPosition;
+        r = transform.position;
     }
 }

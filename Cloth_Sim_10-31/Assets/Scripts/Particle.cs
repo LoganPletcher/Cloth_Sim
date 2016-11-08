@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-class Particle : MonoBehaviour
+public class Particle : MonoBehaviour
 {
     public float m = 1;
     public float s = 1;
     public bool anchor;
+    public bool broken = false;
     public Vector3 Pos0;
     public Vector3 r;
     public Vector3 v;
@@ -18,6 +19,7 @@ class Particle : MonoBehaviour
     public Vector3 Fgravity;
     public Vector3 screenPoint;
     public Vector3 offset;
+    public List<SpringDamper> sj;
     Camera camera;
     void Start()
     {
@@ -59,6 +61,11 @@ class Particle : MonoBehaviour
 
         if (!anchor)
         {
+            //if(broken)
+            //{
+            //    Force = Vector3.zero;
+            //    //ApplyGravity(1);
+            //}
 
             //Calculate acceleration
             a = (1 / m) * Force;
@@ -81,10 +88,10 @@ class Particle : MonoBehaviour
 
     }
 
-    public void ApplyGravity()
+    public void ApplyGravity(float i)
     {
         g = new Vector3(0, -9.8f, 0) * (m);
-        Fgravity = g * m;
+        Fgravity = g * m * i;
         AddForce(Fgravity);
     }
 
@@ -98,6 +105,7 @@ class Particle : MonoBehaviour
     {
         screenPoint = Camera.main.WorldToScreenPoint(transform.position);
         offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+        FindObjectOfType<Gen_Cloth>().lastgrabbed = this;
     }
 
     void OnMouseDrag()

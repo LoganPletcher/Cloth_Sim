@@ -298,6 +298,7 @@ MonoBehaviour:
   Ks: 5
   Kd: 1
   L0: 5
+  lastgrabbed: {fileID: 0}
 --- !u!1 &1223692615
 GameObject:
   m_ObjectHideFlags: 0

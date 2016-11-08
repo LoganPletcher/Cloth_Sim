@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-class ClothTriangle : MonoBehaviour
+public class ClothTriangle : MonoBehaviour
 {
     public Particle P1, P2, P3;
     public float p, Cd;
     public Vector3 Vair, Vsurface;
     public Vector3 P1v, P2v, P3v, v;
+    public bool broken = false;
 
     void Start()
     {

@@ -15,6 +15,7 @@ public class Gen_Cloth : MonoBehaviour
     public float Ks, Kd, L0;
     //public Slider windForce;
     //public Text wText;
+    public Particle lastgrabbed;
     Camera camera;
     float parseTest;
     // Use this for initialization
@@ -73,6 +74,16 @@ public class Gen_Cloth : MonoBehaviour
                         springDampers.Add(SD);
                     }
                 }
+            }
+        }
+        foreach(GameObject p in clothParticles)
+        {
+            foreach(GameObject sd in springDampers)
+            {
+                if (sd.GetComponent<SpringDamper>().P1 == p.GetComponent<Particle>())
+                    p.GetComponent<Particle>().sj.Add(sd.GetComponent<SpringDamper>());
+                else if (sd.GetComponent<SpringDamper>().P2 == p.GetComponent<Particle>())
+                    p.GetComponent<Particle>().sj.Add(sd.GetComponent<SpringDamper>());
             }
         }
         for (int i = 0; i < (((col - 1) * (row - 1)) * 4); i++)
@@ -135,7 +146,25 @@ public class Gen_Cloth : MonoBehaviour
         //Wind = new Vector3(0, 0, windForce.value);
         foreach (GameObject p in clothParticles)
         {
-            p.GetComponent<Particle>().ApplyGravity();
+            Vector3 pPos = Camera.main.WorldToScreenPoint(p.transform.position);
+            p.GetComponent<Particle>().ApplyGravity(1);
+            if(pPos.x <= 5.5)
+            {
+                p.GetComponent<Particle>().v += -p.GetComponent<Particle>().v * 2;
+            }
+            else if (pPos.x >= Screen.width - 5.5)
+            {
+                p.GetComponent<Particle>().v += -p.GetComponent<Particle>().v * 2;
+            }
+            if (pPos.y <= 5.5)
+            {
+                if (p.GetComponent<Particle>().broken)
+                    p.GetComponent<Particle>().v = Vector3.zero;
+                else
+                    p.GetComponent<Particle>().v += -p.GetComponent<Particle>().v * 2;
+                p.GetComponent<Particle>().ApplyGravity(-5f);
+                //p.GetComponent<Particle>().Force -= p.GetComponent<Particle>().Force * 2;
+            }
         }
         foreach (GameObject sd in springDampers)
         {
@@ -148,18 +177,47 @@ public class Gen_Cloth : MonoBehaviour
                 if (sd.GetComponent<SpringDamper>().l > 20)
                 {
                     sd.GetComponent<SpringDamper>().broken = true;
+
+                    foreach(GameObject p in clothParticles)
+                    {
+                        int iterator = 0;
+                        foreach (SpringDamper spring in p.GetComponent<Particle>().sj)
+                        {
+                            if (spring.broken)
+                                iterator++;
+                        }
+                        if(iterator == p.GetComponent<Particle>().sj.Count)
+                        {
+                            p.GetComponent<Particle>().broken = true;
+                            p.GetComponent<Particle>().v = Vector3.zero;
+                            p.GetComponent<Particle>().ApplyGravity(1);
+                        }
+                    }
                 }
             }
         }
+
+
+
         foreach (GameObject ct in triangles)
         {
-            ct.GetComponent<ClothTriangle>().Vair = Wind;
-            ct.GetComponent<ClothTriangle>().CalcAeroForce();
-            //if (ct.GetComponent<SpringDamper>().l > 20)
-            //{
-            //    springDampers.Remove(sd);
-            //    Destroy(sd);
-            //}
+            if (!ct.GetComponent<ClothTriangle>().broken)
+            {
+                ct.GetComponent<ClothTriangle>().Vair = Wind;
+                ct.GetComponent<ClothTriangle>().CalcAeroForce();
+                if (ct.GetComponent<ClothTriangle>().P1.broken)
+                {
+                    ct.GetComponent<ClothTriangle>().broken = true;
+                }
+                else if (ct.GetComponent<ClothTriangle>().P2.broken)
+                {
+                    ct.GetComponent<ClothTriangle>().broken = true;
+                }
+                else if (ct.GetComponent<ClothTriangle>().P3.broken)
+                {
+                    ct.GetComponent<ClothTriangle>().broken = true;
+                }
+            }
         }
         //wText.text = "Wind Force: " + Wind.z.ToString();
     }

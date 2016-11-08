@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-class SpringDamper : MonoBehaviour
+public class SpringDamper : MonoBehaviour
 {
     public float Fspring, Fdamp, 
         Ks = 0, Kd = 0, l0 = 0, l;

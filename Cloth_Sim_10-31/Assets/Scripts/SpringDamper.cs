@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-class SpringDamper : MonoBehaviour
+public class SpringDamper : MonoBehaviour
 {
     public float Fspring, Fdamp, 
         Ks = 0, Kd = 0, l0 = 0, l;
@@ -12,6 +12,7 @@ class SpringDamper : MonoBehaviour
     public Vector3 e;
     public Particle P1, P2;
     Vector3 []particlePos = new Vector3[2];
+    public bool broken = false;
 
     void Start()
     {
@@ -25,12 +26,16 @@ class SpringDamper : MonoBehaviour
         //ComputeForces();
         //P1.UpdateParticle();
         //P2.UpdateParticle();
-        Debug.DrawLine(P1.r, P2.r, Color.red);
-        particlePos[0] = P1.r;
-        particlePos[1] = P2.r;
-        gameObject.GetComponent<LineRenderer>().SetWidth(.5f, .5f);
-        gameObject.GetComponent<LineRenderer>().SetPositions(particlePos);
-
+        if (!broken)
+        {
+            Debug.DrawLine(P1.r, P2.r, Color.red);
+            particlePos[0] = P1.r;
+            particlePos[1] = P2.r;
+            gameObject.GetComponent<LineRenderer>().SetWidth(.5f, .5f);
+            gameObject.GetComponent<LineRenderer>().SetPositions(particlePos);
+        }
+        else
+            gameObject.GetComponent<LineRenderer>().enabled = false;
     }
 
     public void ComputeForces()

@@ -24,6 +24,7 @@ public class MonoParticle : MonoBehaviour
     public Vector3 offset;
     public List<SpringDamper> sj;
     Camera camera;
+    public bool Paused = false;
 
     void Start()
     {
@@ -46,27 +47,30 @@ public class MonoParticle : MonoBehaviour
 
     void Update()
     {
-        Vector3 screenPos = camera.WorldToScreenPoint(transform.position);
-        if ((Math.Abs(screenPos.x - Input.mousePosition.x) < 5f) && (Math.Abs(screenPos.y - Input.mousePosition.y) < 5f))
+        if (!Paused)
         {
-            if (Input.GetButtonDown("Fire1"))
+            Vector3 screenPos = camera.WorldToScreenPoint(transform.position);
+            if ((Math.Abs(screenPos.x - Input.mousePosition.x) < 5f) && (Math.Abs(screenPos.y - Input.mousePosition.y) < 5f))
             {
-                //Debug.Log(transform.position);
-                Debug.Log("gotcha");
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    //Debug.Log(transform.position);
+                    Debug.Log("gotcha");
+                }
+                if (Input.GetButtonDown("Fire2"))
+                {
+                    if (!p.anchor)
+                        p.anchor = true;
+                    else
+                        p.anchor = false;
+                }
             }
-            if (Input.GetButtonDown("Fire2"))
-            {
-                if (!p.anchor)
-                    p.anchor = true;
-                else
-                    p.anchor = false;
-            }
+            p.r = c.Vector3toVec3(transform.position);
+
+            p.Update(Time.deltaTime);
+
+            transform.position = c.Vec3toVector3(p.r);
         }
-        p.r = c.Vector3toVec3(transform.position);
-
-        p.Update(Time.deltaTime);
-
-        transform.position = c.Vec3toVector3(p.r);
     }
 
     void OnMouseDown()

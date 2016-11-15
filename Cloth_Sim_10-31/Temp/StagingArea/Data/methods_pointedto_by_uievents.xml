@@ -1,0 +1,11 @@
+<linker>
+	<assembly fullname="Assembly-CSharp">
+		<type fullname="Gen_Cloth">
+			<method name="ChangeTearing"/>
+			<method name="ChangeWind"/>
+		</type>
+		<type fullname="Scene">
+			<method name="ReloadScene"/>
+		</type>
+	</assembly>
+</linker>

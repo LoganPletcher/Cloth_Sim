@@ -124,6 +124,7 @@ public class Particle
     public Vec3 v;
     public Vec3 a;
     public Vec3 Force;
+    public Vec3 gravity = new Vec3(0, -9.8f, 0);
     public Vec3 g = new Vec3(0, -9.8f, 0);
     public Vec3 Fgravity;
 
@@ -146,7 +147,7 @@ public class Particle
     }
     public void ApplyGravity(float i)
     {
-        g = new Vec3(0, -9.8f, 0) * (m);
+        g = gravity * (m);
         Fgravity = g * m * i;
         AddForce(Fgravity);
     }

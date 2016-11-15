@@ -22,14 +22,19 @@ public class Gen_Cloth : MonoBehaviour
     public GameObject sphere;
     public GameObject springDamp;
     public GameObject triangle;
+    public GameObject floor;
+    public GameObject wall1;
+    public GameObject wall2;
     public int row = 10, col = 10, sdCount = 0;
     public List<GameObject> clothParticles = new List<GameObject>();
     public List<GameObject> springDampers = new List<GameObject>();
     public List<GameObject> triangles = new List<GameObject>();
     public Vector3 Wind = new Vector3(0, 0, 0);
-    public float Ks, Kd, L0, tensileStr;
-    //public Slider windForce;
-    //public Text wText;
+    public float Ks, Kd, L0, tensileStr, grav;
+    public Slider windForce;
+    public Text wText;
+    public Slider tearing;
+    public Text tText;
     public MonoParticle lastgrabbed;
     Camera camera;
     float parseTest;
@@ -43,7 +48,7 @@ public class Gen_Cloth : MonoBehaviour
             {
                 GameObject particle = Instantiate(sphere);
                 particle.gameObject.name = "Sphere" + ((j + (row * i)) + 1).ToString();
-                particle.transform.position = new Vector3(0 + (j * 5), 20 + (i * 5), 0);
+                particle.transform.position = new Vector3(0 + (j * 5), 20 + (i * 5), 40);
                 if ((i == col - 1))
                 {
                     //Debug.Log("pinned");
@@ -150,26 +155,26 @@ public class Gen_Cloth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Wind = new Vector3(0, 0, windForce.value);
+        
         foreach (GameObject p in clothParticles)
         {
             Vector3 pPos = Camera.main.WorldToScreenPoint(p.transform.position);
-            p.GetComponent<MonoParticle>().p.ApplyGravity(.1F);
-            if (pPos.x <= 5.5)
+            p.GetComponent<MonoParticle>().p.ApplyGravity(grav);
+            if (p.GetComponent<MonoParticle>().p.r.x <= wall1.transform.position.x + .5f)
             {
                 p.GetComponent<MonoParticle>().p.v += -p.GetComponent<MonoParticle>().p.v * 2;
             }
-            else if (pPos.x >= Screen.width - 5.5)
+            else if (p.GetComponent<MonoParticle>().p.r.x >= wall2.transform.position.x - .5f)
             {
                 p.GetComponent<MonoParticle>().p.v += -p.GetComponent<MonoParticle>().p.v * 2;
             }
-            if (pPos.y <= 5.5)
+            if (p.GetComponent<MonoParticle>().p.r.y <= floor.transform.position.y + .5f)
             {
                 if (p.GetComponent<MonoParticle>().p.broken)
                     p.GetComponent<MonoParticle>().p.v = new Vec3(0, 0, p.GetComponent<MonoParticle>().p.v.z);
                 else
                     p.GetComponent<MonoParticle>().p.v += -p.GetComponent<MonoParticle>().p.v * 2;
-                p.GetComponent<MonoParticle>().p.ApplyGravity(-1f);
+                p.GetComponent<MonoParticle>().p.ApplyGravity(-grav * 2);
                 //p.GetComponent<Particle>().Force -= p.GetComponent<Particle>().Force * 2;
             }
         }
@@ -197,7 +202,7 @@ public class Gen_Cloth : MonoBehaviour
                         {
                             p.GetComponent<MonoParticle>().p.broken = true;
                             p.GetComponent<MonoParticle>().p.v = new Vec3(0, 0, 0);
-                            p.GetComponent<MonoParticle>().p.ApplyGravity(.1F);
+                            p.GetComponent<MonoParticle>().p.ApplyGravity(grav);
                         }
                     }
                 }
@@ -224,6 +229,18 @@ public class Gen_Cloth : MonoBehaviour
                 }
             }
         }
-        //wText.text = "Wind Force: " + Wind.z.ToString();
+        
+    }
+
+    public void ChangeWind()
+    {
+        Wind = new Vector3(0, 0, windForce.value);
+        wText.text = "Wind Force: " + Wind.z.ToString();
+    }
+
+    public void ChangeTearing()
+    {
+        tensileStr = tearing.value;
+        tText.text = "Tearing Point: " + tensileStr.ToString();
     }
 }

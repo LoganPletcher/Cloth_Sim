@@ -1,118 +1,160 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-public class Particle : MonoBehaviour
+public class Vec3
 {
-    public float m = 1;
-    public float s = 1;
-    public bool anchor;
-    public bool broken = false;
-    public Vector3 Pos0;
-    public Vector3 r;
-    public Vector3 v;
-    public Vector3 a;
-    public Vector3 Force;
-    public Vector3 g = new Vector3(0, -9.8f, 0);
-    public Vector3 Fgravity;
-    public Vector3 screenPoint;
-    public Vector3 offset;
-    public List<SpringDamper> sj;
-    Camera camera;
-    void Start()
+    public Vec3()
     {
-        camera = FindObjectOfType<Camera>();
-        Force = Vector3.zero;
-        Pos0 = transform.position;
-        r = transform.position;
-        //Calculate acceleration
-        a = (1 / m) * Force;
+        X = 0;
+        Y = 0;
+        Z = 0;
+    }
+    public Vec3(float a, float b, float c)
+    {
+        X = a;
+        Y = b;
+        Z = c;
+    }
+    public Vec3(Vec3 other)
+    {
+        this.X = other.X;
+        this.Y = other.Y;
+        this.Z = other.Z;
+    }
+    float X = 0, Y = 0, Z = 0;
+    public float x { get { return X; } }
+    public float y { get { return Y; } }
+    public float z { get { return Z; } }
 
-        //Calculate velocity
-        v += (a * Time.deltaTime);
-
-        //Calculate position
-        r += (v * Time.deltaTime);
-
-        transform.position = r;
+    public static Vec3 operator *(Vec3 v, float f)
+    {
+        Vec3 result = new Vec3();
+        result.X = v.X * f;
+        result.Y = v.Y * f;
+        result.Z = v.Z * f;
+        return result;
+    }
+    public static Vec3 operator *(float f, Vec3 v)
+    {
+        Vec3 result = new Vec3();
+        result.X = v.X * f;
+        result.Y = v.Y * f;
+        result.Z = v.Z * f;
+        return result;
+    }
+    public static Vec3 operator +(Vec3 v1, Vec3 v2)
+    {
+        Vec3 result = new Vec3();
+        result.X = v1.X + v2.X;
+        result.Y = v1.Y + v2.Y;
+        result.Z = v1.Z + v2.Z;
+        return result;
+    }
+    public static Vec3 operator -(Vec3 v1, Vec3 v2)
+    {
+        Vec3 result = new Vec3();
+        result.X = v1.X - v2.X;
+        result.Y = v1.Y - v2.Y;
+        result.Z = v1.Z - v2.Z;
+        return result;
+    }
+    public static Vec3 operator -(Vec3 v)
+    {
+        Vec3 result = new Vec3(-v.x, -v.y, -v.z);
+        return result;
+    }
+}
+public class Particle
+{
+    public Particle()
+    {
+        m = 1;
+        anchor = false;
+        broken = false;
+        r = new Vec3(0, 0, 0);
+        v = new Vec3(0, 0, 0);
+        a = new Vec3(0, 0, 0);
+        Force = new Vec3(0, 0, 0);
+        g = new Vec3(0, -9.8f, 0);
+        Fgravity = new Vec3(0, 0, 0);
+    }
+    public Particle(Vec3 position)
+    {
+        r = new Vec3(position);
+        m = 1;
+        anchor = false;
+        broken = false;
+        v = new Vec3(0, 0, 0);
+        a = new Vec3(0, 0, 0);
+        Force = new Vec3(0, 0, 0);
+        g = new Vec3(0, -9.8f, 0);
+        Fgravity = new Vec3(0, 0, 0);
+    }
+    public Particle(float mass)
+    {
+        m = mass;
+        anchor = false;
+        broken = false;
+        r = new Vec3(0, 0, 0);
+        v = new Vec3(0, 0, 0);
+        a = new Vec3(0, 0, 0);
+        Force = new Vec3(0, 0, 0);
+        g = new Vec3(0, -9.8f, 0);
+        Fgravity = new Vec3(0, 0, 0);
+    }
+    public Particle(float mass, Vec3 position)
+    {
+        m = mass;
+        r = new Vec3(position);
+        anchor = false;
+        broken = false;
+        v = new Vec3(0, 0, 0);
+        a = new Vec3(0, 0, 0);
+        Force = new Vec3(0, 0, 0);
+        g = new Vec3(0, -9.8f, 0);
+        Fgravity = new Vec3(0, 0, 0);
     }
 
-    void Update()
-    {
-        Vector3 screenPos = camera.WorldToScreenPoint(transform.position);
-        if ((Math.Abs(screenPos.x - Input.mousePosition.x) < 5f) && (Math.Abs(screenPos.y - Input.mousePosition.y) < 5f))
-        {
-            if (Input.GetButtonDown("Fire1"))
-            {
-                //Debug.Log(transform.position);
-                Debug.Log("gotcha");
-            }
-            if (Input.GetButtonDown("Fire2"))
-            {
-                if (!anchor)
-                    anchor = true;
-                else
-                    anchor = false;
-            }
-        }
-        r = transform.position;
 
+    public float m = 10;
+    public bool anchor;
+    public bool broken = false;
+    public Vec3 r;
+    public Vec3 v;
+    public Vec3 a;
+    public Vec3 Force;
+    public Vec3 gravity = new Vec3(0, -9.8f, 0);
+    public Vec3 g = new Vec3(0, -9.8f, 0);
+    public Vec3 Fgravity;
+
+    public void Update(float deltaTime)
+    {
         if (!anchor)
         {
-            //if(broken)
-            //{
-            //    Force = Vector3.zero;
-            //    //ApplyGravity(1);
-            //}
-
             //Calculate acceleration
             a = (1 / m) * Force;
 
             //Calculate velocity
-            v += (a * Time.deltaTime);
+            v += (a * deltaTime);
 
             //Calculate position
-            r += (v * Time.deltaTime);
+            r += (v * deltaTime);
 
             //Reset Force
-            Force = Vector3.zero;
+            Force = new Vec3(0, 0, 0);
         }
-
-        transform.position = r;
     }
-
-    public void UpdateParticle()
-    {
-
-    }
-
     public void ApplyGravity(float i)
     {
-        g = new Vector3(0, -9.8f, 0) * (m);
+        g = gravity * (m);
         Fgravity = g * m * i;
         AddForce(Fgravity);
     }
 
-    public void AddForce(Vector3 force)
+    public void AddForce(Vec3 force)
     {
-        if(!anchor)
+        if (!anchor)
             Force += force;
-    }
-
-    void OnMouseDown()
-    {
-        screenPoint = Camera.main.WorldToScreenPoint(transform.position);
-        offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
-        FindObjectOfType<Gen_Cloth>().lastgrabbed = this;
-    }
-
-    void OnMouseDrag()
-    {
-        Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
-        Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
-        transform.position = curPosition;
-        r = transform.position;
     }
 }

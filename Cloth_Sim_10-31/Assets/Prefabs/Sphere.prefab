@@ -22,7 +22,7 @@ GameObject:
   - 33: {fileID: 33000011087313866}
   - 135: {fileID: 135000010285778272}
   - 23: {fileID: 23000011851196234}
-  - 114: {fileID: 114000011334105960}
+  - 114: {fileID: 114000010646486002}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -79,7 +79,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013661163324}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114000011334105960
+--- !u!114 &114000010646486002
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -87,23 +87,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000013661163324}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 378a999cdd3021f4caa265058e9224c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 83c00d3422989e64db8f1ecf84a9cebb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m: 0.5
-  s: 1
-  anchor: 0
-  broken: 0
-  Pos0: {x: 0, y: 0, z: 0}
-  r: {x: 0, y: 0, z: 0}
-  v: {x: 0, y: 0, z: 0}
-  a: {x: 0, y: 0, z: 0}
-  Force: {x: 0, y: 0, z: 0}
-  g: {x: 0, y: -9.8, z: 0}
-  Fgravity: {x: 0, y: 0, z: 0}
   screenPoint: {x: 0, y: 0, z: 0}
   offset: {x: 0, y: 0, z: 0}
   sj: []
+  Paused: 0
 --- !u!135 &135000010285778272
 SphereCollider:
   m_ObjectHideFlags: 1

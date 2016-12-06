@@ -35,6 +35,8 @@ public class Gen_Cloth : MonoBehaviour
     public Text wText;
     public Slider tearing;
     public Text tText;
+    public Slider springStrength;
+    public Text sText;
     public MonoParticle lastgrabbed;
     Camera camera;
     float parseTest;
@@ -44,6 +46,11 @@ public class Gen_Cloth : MonoBehaviour
         camera = FindObjectOfType<Camera>();
         for (int i = 0; i < col; i++)
         {
+            //Debug.Log(i);
+            if (i == 9)
+            {
+                Debug.Log("Broke Row");
+            }
             for (int j = 0; j < row; j++)
             {
                 GameObject particle = Instantiate(sphere);
@@ -242,5 +249,11 @@ public class Gen_Cloth : MonoBehaviour
     {
         tensileStr = tearing.value;
         tText.text = "Tearing Point: " + tensileStr.ToString();
+    }
+
+    public void ChangeSpringConstant()
+    {
+        Ks = springStrength.value;
+        sText.text = Ks.ToString() + " :Spring Strength";
     }
 }

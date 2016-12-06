@@ -24,7 +24,7 @@ public class SpringDamper : MonoBehaviour
     {
         if (!broken)
         {
-            Debug.DrawLine(c.Vec3toVector3(P1.p.r), c.Vec3toVector3(P2.p.r), Color.red);
+            //Debug.DrawLine(c.Vec3toVector3(P1.p.r), c.Vec3toVector3(P2.p.r), Color.red);
             particlePos[0] = c.Vec3toVector3(P1.p.r);
             particlePos[1] = c.Vec3toVector3(P2.p.r);
             gameObject.GetComponent<LineRenderer>().SetWidth(.5f, .5f);

@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-
-
 public class MonoParticle : MonoBehaviour
 {
     Convert c = new Convert();

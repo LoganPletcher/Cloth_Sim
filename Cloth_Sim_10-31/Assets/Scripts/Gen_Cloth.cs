@@ -37,6 +37,8 @@ public class Gen_Cloth : MonoBehaviour
     public Text tText;
     public Slider springStrength;
     public Text sText;
+    public Slider gravityStrength;
+    public Text gText;
     public MonoParticle lastgrabbed;
     Camera camera;
     float parseTest;
@@ -255,5 +257,10 @@ public class Gen_Cloth : MonoBehaviour
     {
         Ks = springStrength.value;
         sText.text = Ks.ToString() + " :Spring Strength";
+    }
+    public void ChangeGravity()
+    {
+        grav = gravityStrength.value;
+        gText.text = grav.ToString() + " :Gravity Strength";
     }
 }

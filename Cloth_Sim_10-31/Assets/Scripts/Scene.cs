@@ -19,7 +19,7 @@ public class Scene : MonoBehaviour {
             if (PauseMenu.activeSelf)
             {
                 PauseMenu.SetActive(false);
-                foreach(GameObject p in Spawner.GetComponent<Gen_Cloth>().clothParticles)
+                foreach(GameObject p in Spawner.GetComponent<GenCloth>().ClothParticles)
                 {
                     p.GetComponent<MonoParticle>().Paused = false;
                 }
@@ -28,7 +28,7 @@ public class Scene : MonoBehaviour {
             else
             {
                 PauseMenu.SetActive(true);
-                foreach (GameObject p in Spawner.GetComponent<Gen_Cloth>().clothParticles)
+                foreach (GameObject p in Spawner.GetComponent<GenCloth>().ClothParticles)
                 {
                     p.GetComponent<MonoParticle>().Paused = true;
                 }

@@ -29,39 +29,47 @@ public class Vec3
 
     public static Vec3 operator *(Vec3 v, float f)
     {
-        Vec3 result = new Vec3();
-        result.X = v.X * f;
-        result.Y = v.Y * f;
-        result.Z = v.Z * f;
+        var result = new Vec3
+        {
+            X = v.X*f,
+            Y = v.Y*f,
+            Z = v.Z*f
+        };
         return result;
     }
     public static Vec3 operator *(float f, Vec3 v)
     {
-        Vec3 result = new Vec3();
-        result.X = v.X * f;
-        result.Y = v.Y * f;
-        result.Z = v.Z * f;
+        var result = new Vec3
+        {
+            X = v.X*f,
+            Y = v.Y*f,
+            Z = v.Z*f
+        };
         return result;
     }
     public static Vec3 operator +(Vec3 v1, Vec3 v2)
     {
-        Vec3 result = new Vec3();
-        result.X = v1.X + v2.X;
-        result.Y = v1.Y + v2.Y;
-        result.Z = v1.Z + v2.Z;
+        var result = new Vec3
+        {
+            X = v1.X + v2.X,
+            Y = v1.Y + v2.Y,
+            Z = v1.Z + v2.Z
+        };
         return result;
     }
     public static Vec3 operator -(Vec3 v1, Vec3 v2)
     {
-        Vec3 result = new Vec3();
-        result.X = v1.X - v2.X;
-        result.Y = v1.Y - v2.Y;
-        result.Z = v1.Z - v2.Z;
+        var result = new Vec3
+        {
+            X = v1.X - v2.X,
+            Y = v1.Y - v2.Y,
+            Z = v1.Z - v2.Z
+        };
         return result;
     }
     public static Vec3 operator -(Vec3 v)
     {
-        Vec3 result = new Vec3(-v.x, -v.y, -v.z);
+        var result = new Vec3(-v.x, -v.y, -v.z);
         return result;
     }
 }
@@ -69,77 +77,77 @@ public class Particle
 {
     public Particle()
     {
-        m = 1;
-        anchor = false;
-        broken = false;
-        r = new Vec3(0, 0, 0);
-        v = new Vec3(0, 0, 0);
-        a = new Vec3(0, 0, 0);
+        M = 1;
+        Anchor = false;
+        Broken = false;
+        R = new Vec3(0, 0, 0);
+        V = new Vec3(0, 0, 0);
+        A = new Vec3(0, 0, 0);
         Force = new Vec3(0, 0, 0);
-        g = new Vec3(0, -9.8f, 0);
+        G = new Vec3(0, -9.8f, 0);
         Fgravity = new Vec3(0, 0, 0);
     }
     public Particle(Vec3 position)
     {
-        r = new Vec3(position);
-        m = 1;
-        anchor = false;
-        broken = false;
-        v = new Vec3(0, 0, 0);
-        a = new Vec3(0, 0, 0);
+        R = new Vec3(position);
+        M = 1;
+        Anchor = false;
+        Broken = false;
+        V = new Vec3(0, 0, 0);
+        A = new Vec3(0, 0, 0);
         Force = new Vec3(0, 0, 0);
-        g = new Vec3(0, -9.8f, 0);
+        G = new Vec3(0, -9.8f, 0);
         Fgravity = new Vec3(0, 0, 0);
     }
     public Particle(float mass)
     {
-        m = mass;
-        anchor = false;
-        broken = false;
-        r = new Vec3(0, 0, 0);
-        v = new Vec3(0, 0, 0);
-        a = new Vec3(0, 0, 0);
+        M = mass;
+        Anchor = false;
+        Broken = false;
+        R = new Vec3(0, 0, 0);
+        V = new Vec3(0, 0, 0);
+        A = new Vec3(0, 0, 0);
         Force = new Vec3(0, 0, 0);
-        g = new Vec3(0, -9.8f, 0);
+        G = new Vec3(0, -9.8f, 0);
         Fgravity = new Vec3(0, 0, 0);
     }
     public Particle(float mass, Vec3 position)
     {
-        m = mass;
-        r = new Vec3(position);
-        anchor = false;
-        broken = false;
-        v = new Vec3(0, 0, 0);
-        a = new Vec3(0, 0, 0);
+        M = mass;
+        R = new Vec3(position);
+        Anchor = false;
+        Broken = false;
+        V = new Vec3(0, 0, 0);
+        A = new Vec3(0, 0, 0);
         Force = new Vec3(0, 0, 0);
-        g = new Vec3(0, -9.8f, 0);
+        G = new Vec3(0, -9.8f, 0);
         Fgravity = new Vec3(0, 0, 0);
     }
 
 
-    public float m = 10;
-    public bool anchor;
-    public bool broken = false;
-    public Vec3 r;
-    public Vec3 v;
-    public Vec3 a;
+    public float M = 10;
+    public bool Anchor;
+    public bool Broken = false;
+    public Vec3 R;
+    public Vec3 V;
+    public Vec3 A;
     public Vec3 Force;
-    public Vec3 gravity = new Vec3(0, -9.8f, 0);
-    public Vec3 g = new Vec3(0, -9.8f, 0);
+    public Vec3 Gravity = new Vec3(0, -9.8f, 0);
+    public Vec3 G;
     public Vec3 Fgravity;
 
     public void Update(float deltaTime)
     {
-        if (!anchor)
+        if (!Anchor)
         {
             //Calculate acceleration
-            a = (1 / m) * Force;
+            A = (1 / M) * Force;
 
             //Calculate velocity
-            v += (a * deltaTime);
+            V += (A * deltaTime);
 
             //Calculate position
-            r += (v * deltaTime);
+            R += (V * deltaTime);
 
             //Reset Force
             Force = new Vec3(0, 0, 0);
@@ -147,14 +155,14 @@ public class Particle
     }
     public void ApplyGravity(float i)
     {
-        g = gravity * (m);
-        Fgravity = g * m * i;
+        G = Gravity * (M);
+        Fgravity = G * M * i;
         AddForce(Fgravity);
     }
 
     public void AddForce(Vec3 force)
     {
-        if (!anchor)
+        if (!Anchor)
             Force += force;
     }
 }

@@ -6,12 +6,12 @@ using System.Text;
 
 public class ClothTriangle : MonoBehaviour
 {
-    Convert c = new Convert();
+    private Convert _c = new Convert();
     public MonoParticle P1, P2, P3;
-    public float p, Cd;
+    public float P, Cd;
     public Vector3 Vair, Vsurface;
-    public Vector3 P1v, P2v, P3v, v;
-    public bool broken = false;
+    public Vector3 P1V, P2V, P3V, V;
+    public bool Broken = false;
 
     void Start()
     {
@@ -20,18 +20,18 @@ public class ClothTriangle : MonoBehaviour
     public void CalcAeroForce()
     {
         //Calculate Average Velocity
-        Vsurface = (c.Vec3toVector3(P1.p.v + P2.p.v + P3.p.v)) / 3;
-        v = Vsurface - Vair;
-        Vector3 n = Vector3.Cross(c.Vec3toVector3(P2.p.r - P1.p.r), c.Vec3toVector3(P3.p.r - P1.p.r)) /
-            (Vector3.Cross(c.Vec3toVector3(P2.p.r - P1.p.r), c.Vec3toVector3(P3.p.r - P1.p.r))).magnitude;
-        float A = .5f * Vector3.Cross(c.Vec3toVector3(P2.p.r - P1.p.r), c.Vec3toVector3(P3.p.r - P1.p.r)).magnitude;
-        if (v.magnitude != 0)
+        Vsurface = (_c.Vec3ToVector3(P1.P.V + P2.P.V + P3.P.V)) / 3;
+        V = Vsurface - Vair;
+        var n = Vector3.Cross(_c.Vec3ToVector3(P2.P.R - P1.P.R), _c.Vec3ToVector3(P3.P.R - P1.P.R)) /
+            (Vector3.Cross(_c.Vec3ToVector3(P2.P.R - P1.P.R), _c.Vec3ToVector3(P3.P.R - P1.P.R))).magnitude;
+        var A = .5f * Vector3.Cross(_c.Vec3ToVector3(P2.P.R - P1.P.R), _c.Vec3ToVector3(P3.P.R - P1.P.R)).magnitude;
+        if (V.magnitude != 0)
         {
-            float a = A * (Vector3.Dot(v, n) / v.magnitude);
-            Vector3 Faero = (-.5f * (p * (v.magnitude * v.magnitude) * Cd * a * n)) / 3;
-            P1.p.AddForce(c.Vector3toVec3(Faero));
-            P2.p.AddForce(c.Vector3toVec3(Faero));
-            P3.p.AddForce(c.Vector3toVec3(Faero));
+            var a = A * (Vector3.Dot(V, n) / V.magnitude);
+            var faero = (-.5f * (P * (V.magnitude * V.magnitude) * Cd * a * n)) / 3;
+            P1.P.AddForce(_c.Vector3ToVec3(faero));
+            P2.P.AddForce(_c.Vector3ToVec3(faero));
+            P3.P.AddForce(_c.Vector3ToVec3(faero));
         }
     }
 }

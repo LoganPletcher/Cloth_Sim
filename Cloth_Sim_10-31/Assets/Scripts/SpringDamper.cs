@@ -6,14 +6,14 @@ using System.Text;
 
 public class SpringDamper : MonoBehaviour
 {
-    Convert c = new Convert();
+    private Convert _c = new Convert();
     public float Fspring, Fdamp,
-        Ks = 0, Kd = 0, l0 = 0, l;
-    Vector3 Fsd, Fsd2, x;
-    public Vector3 e;
+        Ks = 0, Kd = 0, L0 = 0, L;
+    private Vector3 _fsd, _fsd2, _x;
+    public Vector3 E;
     public MonoParticle P1, P2;
-    Vector3[] particlePos = new Vector3[2];
-    public bool broken = false;
+    private Vector3[] particlePos = new Vector3[2];
+    public bool Broken = false;
 
     void Start()
     {
@@ -22,11 +22,11 @@ public class SpringDamper : MonoBehaviour
 
     void Update()
     {
-        if (!broken)
+        if (!Broken)
         {
-            //Debug.DrawLine(c.Vec3toVector3(P1.p.r), c.Vec3toVector3(P2.p.r), Color.red);
-            particlePos[0] = c.Vec3toVector3(P1.p.r);
-            particlePos[1] = c.Vec3toVector3(P2.p.r);
+            //Debug.DrawLine(_c.Vec3ToVector3(P1.p.r), _c.Vec3ToVector3(P2.p.r), Color.red);
+            particlePos[0] = _c.Vec3ToVector3(P1.P.R);
+            particlePos[1] = _c.Vec3ToVector3(P2.P.R);
             gameObject.GetComponent<LineRenderer>().SetWidth(.5f, .5f);
             gameObject.GetComponent<LineRenderer>().SetPositions(particlePos);
         }
@@ -37,26 +37,26 @@ public class SpringDamper : MonoBehaviour
     public void ComputeForces()
     {
         //Get the current unit length
-        Vector3 eNorm = c.Vec3toVector3(P2.p.r - P1.p.r);
-        l = eNorm.magnitude;
-        e = eNorm / l;
+        var eNorm = _c.Vec3ToVector3(P2.P.R - P1.P.R);
+        L = eNorm.magnitude;
+        E = eNorm / L;
 
         //Make 1D directions
-        float d1D1 = Vector3.Dot(e, c.Vec3toVector3(P1.p.v));
-        float d1D2 = Vector3.Dot(e, c.Vec3toVector3(P2.p.v));
+        var d1D1 = Vector3.Dot(E, _c.Vec3ToVector3(P1.P.V));
+        var d1D2 = Vector3.Dot(E, _c.Vec3ToVector3(P2.P.V));
 
         //Calculate Spring Force
-        Fspring = -Ks * (l0 - l);
+        Fspring = -Ks * (L0 - L);
 
         //Calculate Damping Force
         Fdamp = -Kd * (d1D1 - d1D2);
 
         //Calculate Spring Damper
-        Fsd = (Fspring + Fdamp) * e;
+        _fsd = (Fspring + Fdamp) * E;
 
         //Add forces
-        P1.p.AddForce(c.Vector3toVec3(Fsd));
-        P2.p.AddForce(c.Vector3toVec3(-Fsd));
+        P1.P.AddForce(_c.Vector3ToVec3(_fsd));
+        P2.P.AddForce(_c.Vector3ToVec3(-_fsd));
     }
 
 }

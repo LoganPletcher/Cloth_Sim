@@ -4,52 +4,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-
-
 public class MonoParticle : MonoBehaviour
 {
-    Convert c = new Convert();
-    public Particle p = new Particle();
+    private Convert _c = new Convert();
+    public Particle P = new Particle();
     //public float m = 10;
     //public float s = 1;
     //public bool anchor;
-    //public bool broken = false;
+    //public bool Broken = false;
     //public Vector3 r;
     //public Vector3 v;
     //public Vector3 a;
     //public Vector3 Force;
     //public Vector3 g = new Vector3(0, -9.8f, 0);
     //public Vector3 Fgravity;
-    public Vector3 screenPoint;
-    public Vector3 offset;
-    public List<SpringDamper> sj;
-    Camera camera;
+    public Vector3 ScreenPoint;
+    public Vector3 Offset;
+    public List<SpringDamper> Sj;
+    private Camera _camera;
     public bool Paused = false;
 
     void Start()
     {
-        camera = FindObjectOfType<Camera>();
-        p.Force = new Vec3(0, 0, 0);
-        p.r = c.Vector3toVec3(transform.position);
-        if (!p.anchor)
+        _camera = FindObjectOfType<Camera>();
+        P.Force = new Vec3(0, 0, 0);
+        P.R = _c.Vector3ToVec3(transform.position);
+        if (!P.Anchor)
         {
             //Calculate acceleration
-            p.a = (1 / p.m) * p.Force;
+            P.A = (1 / P.M) * P.Force;
 
             //Calculate velocity
-            p.v += (p.a * Time.deltaTime);
+            P.V += (P.A * Time.deltaTime);
 
             //Calculate position
-            p.r += (p.v * Time.deltaTime);
+            P.R += (P.V * Time.deltaTime);
         }
-        transform.position = c.Vec3toVector3(p.r);
+        transform.position = _c.Vec3ToVector3(P.R);
     }
 
     void Update()
     {
         if (!Paused)
         {
-            Vector3 screenPos = camera.WorldToScreenPoint(transform.position);
+            var screenPos = _camera.WorldToScreenPoint(transform.position);
             if ((Math.Abs(screenPos.x - Input.mousePosition.x) < 5f) && (Math.Abs(screenPos.y - Input.mousePosition.y) < 5f))
             {
                 if (Input.GetButtonDown("Fire1"))
@@ -59,32 +57,32 @@ public class MonoParticle : MonoBehaviour
                 }
                 if (Input.GetButtonDown("Fire2"))
                 {
-                    if (!p.anchor)
-                        p.anchor = true;
+                    if (!P.Anchor)
+                        P.Anchor = true;
                     else
-                        p.anchor = false;
+                        P.Anchor = false;
                 }
             }
-            p.r = c.Vector3toVec3(transform.position);
+            P.R = _c.Vector3ToVec3(transform.position);
 
-            p.Update(Time.deltaTime);
+            P.Update(Time.deltaTime);
 
-            transform.position = c.Vec3toVector3(p.r);
+            transform.position = _c.Vec3ToVector3(P.R);
         }
     }
 
     void OnMouseDown()
     {
-        screenPoint = Camera.main.WorldToScreenPoint(transform.position);
-        offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
-        FindObjectOfType<Gen_Cloth>().lastgrabbed = this;
+        ScreenPoint = Camera.main.WorldToScreenPoint(transform.position);
+        Offset = transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, ScreenPoint.z));
+        FindObjectOfType<GenCloth>().Lastgrabbed = this;
     }
 
     void OnMouseDrag()
     {
-        Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
-        Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+        var curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, ScreenPoint.z);
+        var curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + Offset;
         transform.position = curPosition;
-        p.r = c.Vector3toVec3(transform.position);
+        P.R = _c.Vector3ToVec3(transform.position);
     }
 }

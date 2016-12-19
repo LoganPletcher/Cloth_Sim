@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000012782169222}
   - 120: {fileID: 120000013194043446}
-  - 114: {fileID: 114000011020673882}
+  - 114: {fileID: 114000013608039486}
   m_Layer: 0
   m_Name: Spring-Damper
   m_TagString: Untagged
@@ -41,7 +41,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &114000011020673882
+--- !u!114 &114000013608039486
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -54,13 +54,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Fspring: 0
   Fdamp: 0
-  Ks: 1
+  Ks: 5
   Kd: 1
-  l0: 5
-  l: 0
-  e: {x: 0, y: 0, z: 0}
+  L0: 0
+  L: 0
+  E: {x: 0, y: 0, z: 0}
   P1: {fileID: 0}
   P2: {fileID: 0}
+  Broken: 0
 --- !u!120 &120000013194043446
 LineRenderer:
   m_ObjectHideFlags: 1

@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000012861436004}
-  - 114: {fileID: 114000010369122016}
+  - 114: {fileID: 114000010226367044}
   m_Layer: 0
   m_Name: Triangle
   m_TagString: Untagged
@@ -40,7 +40,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &114000010369122016
+--- !u!114 &114000010226367044
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -54,10 +54,12 @@ MonoBehaviour:
   P1: {fileID: 0}
   P2: {fileID: 0}
   P3: {fileID: 0}
-  p: 0.1
-  Cd: 0.1
-  a: 0
-  Faero: {x: 0, y: 0, z: 0}
-  v: {x: 0, y: 0, z: 0}
-  n: {x: 0, y: 0, z: 0}
+  P: 1
+  Cd: 0.01
   Vair: {x: 0, y: 0, z: 0}
+  Vsurface: {x: 0, y: 0, z: 0}
+  P1V: {x: 0, y: 0, z: 0}
+  P2V: {x: 0, y: 0, z: 0}
+  P3V: {x: 0, y: 0, z: 0}
+  V: {x: 0, y: 0, z: 0}
+  Broken: 0
